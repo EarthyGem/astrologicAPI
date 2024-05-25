@@ -1,0 +1,17 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "AstrologicAPI",
+  "name_for_model": "astrologic_api",
+  "description_for_human": "API to calculate planetary positions, power scores, south node configurations, and harmony scores.",
+  "description_for_model": "Astrology API for calculating planetary positions, power scores, south node configurations, and harmony scores.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://ef1c-209-222-126-192.ngrok-free.app/openapi.yaml"
+  },
+  "logo_url": "https://ef1c-209-222-126-192.ngrok-free.app/logo.png",
+  "contact_email": "support@example.com",
+  "legal_info_url": "http://example.com/legal"
+}
