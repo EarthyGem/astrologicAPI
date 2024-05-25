@@ -1,17 +1,18 @@
 {
   "schema_version": "v1",
-  "name_for_human": "AstrologicAPI",
+  "name_for_human": "Astrologic API",
   "name_for_model": "astrologic_api",
-  "description_for_human": "API to calculate planetary positions, power scores, south node configurations, and harmony scores.",
-  "description_for_model": "Astrology API for calculating planetary positions, power scores, south node configurations, and harmony scores.",
+  "description_for_human": "Get planetary positions, power scores, and other astrological information based on date, time, latitude, and longitude.",
+  "description_for_model": "A service to retrieve planetary positions, power scores, and other astrological information based on provided date, time, latitude, and longitude.",
   "auth": {
     "type": "none"
   },
   "api": {
     "type": "openapi",
-    "url": "https://ef1c-209-222-126-192.ngrok-free.app/openapi.yaml"
+    "url": "https://087a-209-222-126-192.ngrok-free.app/openapi.yaml",
+    "is_user_authenticated": false
   },
-  "logo_url": "https://ef1c-209-222-126-192.ngrok-free.app/logo.png",
+  "logo_url": " https://087a-209-222-126-192.ngrok-free.app/logo.png",
   "contact_email": "support@example.com",
   "legal_info_url": "http://example.com/legal"
 }
