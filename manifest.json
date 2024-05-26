@@ -9,10 +9,10 @@
   },
   "api": {
     "type": "openapi",
-    "url": "https://087a-209-222-126-192.ngrok-free.app/openapi.yaml",
+    "url": "https://astrologicapi-7eaeaccbf6ff.herokuapp.com/openapi.yaml",
     "is_user_authenticated": false
   },
-  "logo_url": " https://087a-209-222-126-192.ngrok-free.app/logo.png",
+  "logo_url": " https://astrologicapi-7eaeaccbf6ff.herokuapp.com/logo.png",
   "contact_email": "support@example.com",
   "legal_info_url": "http://example.com/legal"
 }

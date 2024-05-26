@@ -4,7 +4,7 @@ info:
   description: API to get planetary positions, power scores, south node configurations, and harmony scores based on a given date, time, latitude, and longitude.
   version: 1.0.0
 servers:
-  - url:  https://9dfe-209-222-126-192.ngrok-free.app
+  - url: https://astrologicapi-7eaeaccbf6ff.herokuapp.com
     description: Development server
 paths:
   /planets:
