@@ -86,7 +86,7 @@ func routes(_ app: Application) throws {
     }
 
     // New route to get the nodal details
-    app.get("calculate", "nodal-details") { req -> EventLoopFuture<Response> in
+    app.get("planets", "nodal-details") { req -> EventLoopFuture<Response> in
         do {
             guard let dateString = req.query[String.self, at: "date"] else {
                 throw Abort(.badRequest, reason: "Missing date parameter")
@@ -115,7 +115,7 @@ func routes(_ app: Application) throws {
 
             // Calculate nodal details
             let nodalDetails = chartCake.calculateSouthNode()
-
+            let response = NodalDetails(config: nodalDetails)
             return req.eventLoop.makeSucceededFuture(try Response(status: .ok, body: .init(data: JSONEncoder().encode(nodalDetails))))
         } catch {
             return req.eventLoop.makeFailedFuture(error)
@@ -131,3 +131,7 @@ struct PlanetaryPositionsResponse: Content {
 struct PowerScoresResponse: Content {
     var scores: [String]
 }
+struct NodalDetails: Content {
+    var config: String
+}
+
