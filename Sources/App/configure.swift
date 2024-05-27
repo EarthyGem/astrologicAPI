@@ -1,42 +1,20 @@
 import Vapor
-import PostgresKit
 import NIOSSL
 
-public func configure(_ app: Application) throws {
-    app.logger.info("Starting configuration")
+public func configure(_ app: Application) async throws {
+    // Set up your database and other configurations here
 
-    let certPath = "/Users/administrator/astrologicapi/cert.pem"
-    let keyPath = "/Users/administrator/astrologicapi/key.pem"
+    // Configure SSL
+    let certificatePath = "/Users/administrator/astrologicapi/cert.pem"
+    let privateKeyPath = "/Users/administrator/astrologicapi/key.pem"
+    let configuration = TLSConfiguration.makeServerConfiguration(
+        certificateChain: try NIOSSLCertificate.fromPEMFile(certificatePath).map { .certificate($0) },
+        privateKey: .file(privateKeyPath)
+    )
 
-    app.logger.info("Using certPath: \(certPath)")
-    app.logger.info("Using keyPath: \(keyPath)")
-
-    let tlsConfiguration: TLSConfiguration
-    do {
-        tlsConfiguration = TLSConfiguration.makeServerConfiguration(
-            certificateChain: try NIOSSLCertificate.fromPEMFile(certPath).map { .certificate($0) },
-            privateKey: .file(keyPath)
-        )
-    } catch {
-        app.logger.critical("Failed to load SSL certificates: \(error)")
-        throw error
-    }
-
-    app.http.server.configuration.tlsConfiguration = tlsConfiguration
-    app.http.server.configuration.supportVersions = [.one, .two]
-
-    // Database configuration
-    app.databases.use(.postgres(configuration: .init(
-        hostname: Environment.get("DATABASE_HOST") ?? "localhost",
-        port: Environment.get("DATABASE_PORT").flatMap(Int.init(_:)) ?? SQLPostgresConfiguration.ianaPortNumber,
-        username: Environment.get("DATABASE_USERNAME") ?? "vapor_username",
-        password: Environment.get("DATABASE_PASSWORD") ?? "vapor_password",
-        database: Environment.get("DATABASE_NAME") ?? "vapor_database",
-        tlsConfiguration: .forClient()
-    )), as: .psql)
-
-    // Migrations
-    app.migrations.add(CreateTodo())
+    app.http.server.configuration.hostname = "0.0.0.0"
+    app.http.server.configuration.port = 443
+    app.http.server.configuration.tlsConfiguration = configuration
 
     // Register routes
     try routes(app)
