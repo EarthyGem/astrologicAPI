@@ -1,10 +1,10 @@
-// swift-tools-version:5.10
+// swift-tools-version:5.4
 import PackageDescription
 
 let package = Package(
-    name: "AstrologicAPI",
+    name: "YourProjectName",
     platforms: [
-       .macOS(.v13)
+        .macOS(.v11)
     ],
     dependencies: [
         // 💧 A server-side Swift web framework.
@@ -19,7 +19,7 @@ let package = Package(
         .package(url: "https://github.com/vapor/fluent-postgres-driver.git", from: "2.1.0")
     ],
     targets: [
-        .executableTarget(
+        .target(
             name: "App",
             dependencies: [
                 .product(name: "Vapor", package: "vapor"),
@@ -30,6 +30,12 @@ let package = Package(
                 .product(name: "FluentPostgresDriver", package: "fluent-postgres-driver")
             ],
             swiftSettings: swiftSettings
+        ),
+        .executableTarget(
+            name: "Run",
+            dependencies: [
+                .target(name: "App")
+            ]
         ),
         .testTarget(
             name: "AppTests",
