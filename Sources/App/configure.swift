@@ -5,11 +5,12 @@ public func configure(_ app: Application) async throws {
     // Set up your database and other configurations here
 
     // Configure SSL
-    let certificatePath = "/Users/administrator/astrologicapi/cert.pem"
-    let privateKeyPath = "/Users/administrator/astrologicapi/key.pem"
+    let certPath = "/etc/letsencrypt/live/lilaastrology.com/fullchain.pem"
+       let keyPath = "/etc/letsencrypt/live/lilaastrology.com/privkey.pem"
+
     let configuration = TLSConfiguration.makeServerConfiguration(
-        certificateChain: try NIOSSLCertificate.fromPEMFile(certificatePath).map { .certificate($0) },
-        privateKey: .file(privateKeyPath)
+        certificateChain: try NIOSSLCertificate.fromPEMFile(certPath).map { .certificate($0) },
+        privateKey: .file(keyPath)
     )
 
     app.http.server.configuration.hostname = "0.0.0.0"
