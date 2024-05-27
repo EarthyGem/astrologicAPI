@@ -5,14 +5,14 @@ public func configure(_ app: Application) async throws {
     // Set up your database and other configurations here
 
     // Configure SSL
-    let certPath = "/Users/errickwilliams/Desktop/AstrologicAPI/cert.pem"
-    let keyPath = "/Users/errickwilliams/Desktop/AstrologicAPI/key.pem"
+    let certificatePath = "/Users/administrator/astrologicapi/cert.pem"
+    let privateKeyPath = "/Users/administrator/astrologicapi/key.pem"
     let configuration = TLSConfiguration.makeServerConfiguration(
-        certificateChain: try NIOSSLCertificate.fromPEMFile(certPath).map { .certificate($0) },
-        privateKey: .file(keyPath)
+        certificateChain: try NIOSSLCertificate.fromPEMFile(certificatePath).map { .certificate($0) },
+        privateKey: .file(privateKeyPath)
     )
 
-    app.http.server.configuration.hostname = "207.254.119.79"
+    app.http.server.configuration.hostname = "0.0.0.0"
     app.http.server.configuration.port = 443
     app.http.server.configuration.tlsConfiguration = configuration
 
