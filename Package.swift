@@ -12,7 +12,7 @@ let package = Package(
         // 🔵 Non-blocking, event-driven networking for Swift. Used for custom executors
         .package(url: "https://github.com/apple/swift-nio.git", from: "2.65.0"),
         // 🌌 SwiftEphemeris for astronomical calculations
-        .package(url: "https://github.com/heylila/SwiftEphemeris.git", branch: "my_new"),
+        .package(url: "https://github.com/heylila/SwiftEphemeris.git", .branch("my_new")),
         // 🗃 Fluent ORM
         .package(url: "https://github.com/vapor/fluent.git", from: "4.4.0"),
         // 🟠 Fluent Postgres Driver
@@ -30,13 +30,14 @@ let package = Package(
                 .product(name: "FluentPostgresDriver", package: "fluent-postgres-driver")
             ],
             swiftSettings: swiftSettings
+            
         ),
         .executableTarget(
-                 name: "Run",
-                 dependencies: [
-                     .target(name: "App")
-                 ]
-             ),
+                  name: "Run",
+                  dependencies: [
+                      .target(name: "App")
+                  ]
+              ),
         .testTarget(
             name: "AppTests",
             dependencies: [
