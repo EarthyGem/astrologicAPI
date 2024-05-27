@@ -6,8 +6,8 @@ public func configure(_ app: Application) async throws {
 
     app.logger.info("Starting configuration")
 
-    let certPath = "/administrator/astrologicapi/lilaastrology.com.crt"
-    let keyPath = "/administrator/astrologicapi/lilaastrology.com.key"
+    let certPath = "/Users/administrator/astrologicapi/lilaastrology.com.crt"
+    let keyPath = "/Users/administrator/astrologicapi/lilaastrology.com.key"
     // let caBundlePath = "/path/to/your/certificates/ca-bundle.crt"
 
     app.logger.info("Using certPath: \(certPath)")
