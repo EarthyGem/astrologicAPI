@@ -5,8 +5,8 @@ import NIOSSL
 public func configure(_ app: Application) throws {
     app.logger.info("Starting configuration")
 
-    let certPath = "/etc/letsencrypt/live/lilaastrology.com/fullchain.pem"
-    let keyPath = "/etc/letsencrypt/live/lilaastrology.com/privkey.pem"
+    let certPath = "/Users/administrator/astrologicapi/cert.pem"
+    let keyPath = "/Users/administrator/astrologicapi/key.pem"
 
     app.logger.info("Using certPath: \(certPath)")
     app.logger.info("Using keyPath: \(keyPath)")
@@ -32,7 +32,7 @@ public func configure(_ app: Application) throws {
         username: Environment.get("DATABASE_USERNAME") ?? "vapor_username",
         password: Environment.get("DATABASE_PASSWORD") ?? "vapor_password",
         database: Environment.get("DATABASE_NAME") ?? "vapor_database",
-        tlsConfiguration: try .forClient(trustRoots: .default)
+        tlsConfiguration: .forClient()
     )), as: .psql)
 
     // Migrations
