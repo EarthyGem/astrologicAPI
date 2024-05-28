@@ -2,26 +2,22 @@ import Vapor
 import NIOSSL
 
 public func configure(_ app: Application) throws {
-    app.logger.info("Starting configuration")
+    // Serve files from the /Public folder
     app.middleware.use(FileMiddleware(publicDirectory: app.directory.publicDirectory))
-    let certPath = "/Users/administrator/astrologicapi/lilaastrology.com.crt"
-    let keyPath = "/Users/administrator/astrologicapi/lilaastrology.com.key"
 
+    // Set up TLS configuration
+    let certPath = "/Users/administrator/astrologicapi/new_certificate.crt"
+    let keyPath = "/Users/administrator/astrologicapi/newkey.key"
+    
     app.logger.info("Using certPath: \(certPath)")
     app.logger.info("Using keyPath: \(keyPath)")
 
+    let tlsConfiguration: TLSConfiguration
     do {
-        let certificates = try NIOSSLCertificate.fromPEMFile(certPath)
-        let privateKey = try NIOSSLPrivateKey(file: keyPath, format: .pem)
-
-        app.logger.info("Certificates and private key successfully loaded")
-
-        let configuration = TLSConfiguration.makeServerConfiguration(
-            certificateChain: certificates.map { .certificate($0) },
-            privateKey: .privateKey(privateKey)
+        tlsConfiguration = TLSConfiguration.makeServerConfiguration(
+            certificateChain: try NIOSSLCertificate.fromPEMFile(certPath).map { .certificate($0) },
+            privateKey: .file(keyPath)
         )
-
-        app.http.server.configuration.tlsConfiguration = configuration
     } catch {
         app.logger.critical("Failed to load SSL certificates: \(error)")
         throw error
@@ -29,6 +25,7 @@ public func configure(_ app: Application) throws {
 
     app.http.server.configuration.hostname = "0.0.0.0"
     app.http.server.configuration.port = 443
+    app.http.server.configuration.tlsConfiguration = tlsConfiguration
 
     // Register routes
     try routes(app)
