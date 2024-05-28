@@ -4,7 +4,7 @@ info:
   description: API to get nodal details based on date, time, latitude, and longitude.
   version: 1.0.0
 servers:
-  - url: http://207.254.119.79:8080
+  - url: http://207.254.119.79:443
     description: Public server
 paths:
   /planets/nodal-details:
