@@ -3,7 +3,7 @@ import NIOSSL
 
 public func configure(_ app: Application) throws {
     app.logger.info("Starting configuration")
-
+    app.middleware.use(FileMiddleware(publicDirectory: app.directory.publicDirectory))
     let certPath = "/Users/administrator/astrologicapi/lilaastrology.com.crt"
     let keyPath = "/Users/administrator/astrologicapi/lilaastrology.com.key"
 
