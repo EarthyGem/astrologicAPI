@@ -6,7 +6,7 @@ public func configure(_ app: Application) throws {
     app.middleware.use(FileMiddleware(publicDirectory: app.directory.publicDirectory))
 
     // Set up TLS configuration
-    let certPath = "/Users/administrator/astrologicapi/new_certificate.crt"
+    let certPath = "/Users/administrator/astrologicapi/liliaastrology_com.crt"
     let keyPath = "/Users/administrator/astrologicapi/newkey.key"
     
     app.logger.info("Using certPath: \(certPath)")
