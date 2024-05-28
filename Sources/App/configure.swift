@@ -5,7 +5,7 @@ public func configure(_ app: Application) throws {
     app.logger.info("Starting configuration")
 
     let certPath = "/Users/administrator/astrologicapi/fullchain.pem"
-    let keyPath = "/Users/administrator/astrologicapi/lilaastrology.com.crt"
+    let keyPath = "/Users/administrator/astrologicapi/lilaastrology.com.key"
 
     app.logger.info("Using certPath: \(certPath)")
     app.logger.info("Using keyPath: \(keyPath)")
