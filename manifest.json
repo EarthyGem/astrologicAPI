@@ -1,18 +1,18 @@
 {
   "schema_version": "v1",
-  "name_for_human": "Astrologic API",
-  "name_for_model": "astrologic_api",
-  "description_for_human": "Get planetary positions, power scores, and other astrological information based on date, time, latitude, and longitude.",
-  "description_for_model": "A service to retrieve planetary positions, power scores, and other astrological information based on provided date, time, latitude, and longitude.",
+  "name_for_human": "Astrology API",
+  "name_for_model": "astrology_api",
+  "description_for_human": "Get detailed astrological data including planetary positions, power scores, and nodal details.",
+  "description_for_model": "Plugin for fetching astrological data such as planetary positions, power scores, and nodal details based on date, time, latitude, and longitude.",
   "auth": {
     "type": "none"
   },
   "api": {
     "type": "openapi",
-    "url": "https://astrologicapi-7eaeaccbf6ff.herokuapp.com/openapi.yaml",
+    "url": "https://lilaastrology.com/openapi.yaml",
     "is_user_authenticated": false
   },
-  "logo_url": " https://astrologicapi-7eaeaccbf6ff.herokuapp.com/logo.png",
-  "contact_email": "support@example.com",
-  "legal_info_url": "http://example.com/legal"
+  "logo_url": "https://lilaastrology.com/logo.png",
+  "contact_email": "support@yourdomain.com",
+  "legal_info_url": "https://lilaastrology.com/terms"
 }
