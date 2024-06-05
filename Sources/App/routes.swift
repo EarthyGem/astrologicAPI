@@ -85,58 +85,43 @@ func routes(_ app: Application) throws {
         }
     }
 
+    // New route to get the nodal details
     app.get("planets", "nodal-details") { req -> EventLoopFuture<Response> in
-           do {
-               guard let dateString = req.query[String.self, at: "date"],
-                     let timeString = req.query[String.self, at: "time"],
-                     let lat = req.query[Double.self, at: "lat"],
-                     let lon = req.query[Double.self, at: "lon"] else {
-                   throw Abort(.badRequest, reason: "Missing query parameters")
-               }
+        do {
+            guard let dateString = req.query[String.self, at: "date"] else {
+                throw Abort(.badRequest, reason: "Missing date parameter")
+            }
+            guard let timeString = req.query[String.self, at: "time"] else {
+                throw Abort(.badRequest, reason: "Missing time parameter")
+            }
+            guard let lat = req.query[Double.self, at: "lat"] else {
+                throw Abort(.badRequest, reason: "Missing latitude parameter")
+            }
+            guard let lon = req.query[Double.self, at: "lon"] else {
+                throw Abort(.badRequest, reason: "Missing longitude parameter")
+            }
 
-               // Convert date and time to Date object
-               let dateFormatter = ISO8601DateFormatter()
-               dateFormatter.formatOptions = [.withFullDate, .withDashSeparatorInDate, .withTime, .withColonSeparatorInTime, .withTimeZone]
-               guard let date = dateFormatter.date(from: "\(dateString)T\(timeString)Z") else {
-                   throw Abort(.badRequest, reason: "Invalid date or time format")
-               }
+            // Convert date and time to Date object
+            let dateFormatter = ISO8601DateFormatter()
+            dateFormatter.formatOptions = [.withFullDate, .withDashSeparatorInDate, .withTime, .withColonSeparatorInTime, .withTimeZone]
+            guard let date = dateFormatter.date(from: "\(dateString)T\(timeString)Z") else {
+                throw Abort(.badRequest, reason: "Invalid date or time format")
+            }
 
-               // Make external API call using Vapor's HTTP client
-               let url = "https://lilaastrology.com/planets/nodal-details"
-               var urlComponents = URLComponents(string: url)!
-               urlComponents.queryItems = [
-                   URLQueryItem(name: "date", value: dateString),
-                   URLQueryItem(name: "time", value: timeString),
-                   URLQueryItem(name: "lat", value: "\(lat)"),
-                   URLQueryItem(name: "lon", value: "\(lon)")
-               ]
+            // Calculate planetary positions using Swiss Ephemeris
+            guard let chartCake = ChartCake(birthDate: date, latitude: lat, longitude: lon) else {
+                throw Abort(.internalServerError, reason: "Failed to generate chart.")
+            }
 
-               guard let externalURL = urlComponents.url else {
-                   throw Abort(.internalServerError, reason: "Invalid URL")
-               }
-
-               let client = req.client
-               return client.get(URI(string: externalURL.absoluteString)).flatMapThrowing { clientResponse in
-                   guard clientResponse.status == .ok else {
-                       throw Abort(.internalServerError, reason: "Failed to fetch data from external API")
-                   }
-
-                   // Assuming the external API returns a JSON object
-                   guard let body = clientResponse.body else {
-                       throw Abort(.internalServerError, reason: "No data in response")
-                   }
-
-                   // Decode the JSON response into a NodalDetails object
-                   let nodalDetails = try JSONDecoder().decode(NodalDetails.self, from: body)
-                   
-                   // Process the nodalDetails as needed or return directly
-                   return Response(status: .ok, body: .init(data: try JSONEncoder().encode(nodalDetails)))
-               }
-           } catch {
-               return req.eventLoop.makeFailedFuture(error)
-           }
-       }
-   }
+            // Calculate nodal details
+            let nodalDetails = chartCake.calculateSouthNode()
+            let response = NodalDetails(config: nodalDetails)
+            return req.eventLoop.makeSucceededFuture(try Response(status: .ok, body: .init(data: JSONEncoder().encode(nodalDetails))))
+        } catch {
+            return req.eventLoop.makeFailedFuture(error)
+        }
+    }
+}
 
 // Structs for responses
 struct PlanetaryPositionsResponse: Content {
